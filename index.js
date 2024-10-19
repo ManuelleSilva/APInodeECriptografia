@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const app = express();
 
 // Models
-const Livro = require('./models/Livro');
+const Livro = require('./models/Livros');
 const Genero = require('./models/Genero');
 const LocalBiblioteca = require('./models/LocalBiblioteca');
 const User = require('./models/user');
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'Bem-vindo à API da Livraria!' });
 });
 
-//LOGIN INSERIR
+//LOGIN INSERIR (funcionou)
 app.post('/User', async (req, res) => {
     let { email, pass } = req.body;
     try {
@@ -74,7 +74,7 @@ app.post('/User', async (req, res) => {
     }
 });
 
-// O R do CRUD (ler os usuarios)
+// O R do CRUD (ler os usuarios) (funcionou)
 app.get('/person', async (req, res) => {
     try {
       const people = await User.find()
@@ -85,7 +85,7 @@ app.get('/person', async (req, res) => {
     }
   });
 
-// Login do Usuário
+// Login do Usuário (funcionou)
 app.post('/login', async (req, res) => {
     let { email, pass } = req.body;
     try {
@@ -102,13 +102,17 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Rota para adicionar livro
+// Rota para adicionar livro (funcionou)
 app.post('/livro', async (req, res) => {
-    const { titulo, autor } = req.body;
+    const { titulo, autor, editora, sinopse, genero, local } = req.body; // Incluindo genero e local
 
     const livro = new Livro({
         titulo,
-        autor
+        autor,
+        editora,
+        sinopse,
+        genero, 
+        local 
     });
 
     try {
@@ -120,7 +124,8 @@ app.post('/livro', async (req, res) => {
 });
 
 
-// Rota para adicionar gênero
+
+// Rota para adicionar gênero (funcionou)
 app.post('/genero', async (req, res) => {
     const { nome, descricao } = req.body;
 
@@ -137,7 +142,7 @@ app.post('/genero', async (req, res) => {
     }
 });
 
-// Rota para adicionar local da biblioteca
+// Rota para adicionar local da biblioteca (funcionou)
 app.post('/localbiblioteca', async (req, res) => {
     const { local, secao } = req.body;
 
@@ -157,16 +162,18 @@ app.post('/localbiblioteca', async (req, res) => {
 
 //ROTAS PARA LER
 
-// Rotas para Livros
+// Rotas para Livros (funcionou)
 app.get('/livros', async (req, res) => {
     try {
-        const livros = await Livro.find().populate('local').populate('genero'); // Popula as referências
+        const livros = await Livro.find().populate('local').populate('genero'); 
         res.status(200).json(livros);
     } catch (error) {
         res.status(500).json({ erro: error });
     }
 });
 
+
+// ler o livro por id (funcionou)
 app.get('/livros/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -182,7 +189,7 @@ app.get('/livros/:id', async (req, res) => {
     }
 });
 
-// Rotas para Gêneros
+// Rotas para Gêneros (funcionou)
 app.get('/generos', async (req, res) => {
     try {
         const generos = await Genero.find();
@@ -207,7 +214,7 @@ app.get('/generos/:id', async (req, res) => {
     }
 });
 
-// Rotas para Localização da Biblioteca
+// Rotas para Localização da Biblioteca (funcionou)
 app.get('/locais', async (req, res) => {
     try {
         const locais = await LocalBiblioteca.find();

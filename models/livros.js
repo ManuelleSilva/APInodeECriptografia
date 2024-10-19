@@ -5,9 +5,8 @@ const Livro = mongoose.model("Livro", {
     autor: String,
     editora: String,
     sinopse: String,
-    local: { type: mongoose.Schema.Types.ObjectId, ref: 'LocalBiblioteca' },
-    genero: { type: mongoose.Schema.Types.ObjectId, ref: 'Genero' } 
-
+    genero: { type: mongoose.Schema.Types.ObjectId, ref: 'Genero' }, // Referência ao modelo Genero
+    local: { type: mongoose.Schema.Types.ObjectId, ref: 'LocalBiblioteca' } // Referência ao modelo LocalBiblioteca
 });
 
 module.exports = Livro;
